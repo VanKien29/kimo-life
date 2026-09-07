@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { ensureCameraPermission } from '@/lib/camera-permission';
 import { Camera, ImagePlus, LoaderCircle, RefreshCw } from 'lucide-react';
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 
@@ -45,6 +46,13 @@ export function QuickCameraCapture({ open, onOpenChange, onCapture }: QuickCamer
             setError(null);
 
             try {
+                const permissionGranted = await ensureCameraPermission();
+
+                if (!permissionGranted) {
+                    setError('Bạn chưa cấp quyền camera. Hãy cho phép camera rồi thử lại.');
+                    return;
+                }
+
                 const stream = await navigator.mediaDevices.getUserMedia({
                     audio: false,
                     video: {

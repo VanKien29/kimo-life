@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils';
+import { ensureCameraPermission } from '@/lib/camera-permission';
 import { type MemoryItem, type MemoryOption } from '@/types/memory';
 import type { FormDataConvertible } from '@inertiajs/core';
 import { useForm } from '@inertiajs/react';
@@ -115,6 +116,13 @@ export function MemoryComposer({
 
         try {
             stopCamera();
+            const permissionGranted = await ensureCameraPermission();
+
+            if (!permissionGranted) {
+                setCameraError('Bạn chưa cấp quyền camera. Hãy cho phép camera rồi bấm Thử lại.');
+                return;
+            }
+
             stream = await navigator.mediaDevices.getUserMedia({
                 audio: false,
                 video: {

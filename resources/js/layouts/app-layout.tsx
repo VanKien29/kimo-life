@@ -77,7 +77,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
                 </header>
 
                 <main className="flex-1 pb-28 md:pb-5">
-                    <AnimatePresence mode="wait" initial={false}>
+                    <AnimatePresence mode="popLayout" initial={false}>
                         <motion.div
                             key={page.url}
                             initial={reduceMotion ? false : 'initial'}

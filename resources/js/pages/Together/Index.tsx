@@ -10,6 +10,7 @@ import InputError from '@/components/input-error';
 import { Input } from '@/components/ui/input';
 import { Toast } from '@/components/ui/toast';
 import AppLayout from '@/layouts/app-layout';
+import { ensureCameraPermission } from '@/lib/camera-permission';
 import { type DuoStreakItem, type GroupChallengeItem, type TogetherPageProps, type TogetherSharedMemory } from '@/types/friendship';
 import { Head, Link, router, useForm } from '@inertiajs/react';
 import { ArrowLeft, ArrowRight, BookHeart, Camera, Check, CheckCircle2, Flame, Gift, HeartHandshake, Image as ImageIcon, ImagePlus, LoaderCircle, Pause, RefreshCw, Search, Sparkles, UserPlus, UsersRound, X } from 'lucide-react';
@@ -247,7 +248,15 @@ function ChallengeCheckInDialog({ challengeId, open, onOpenChange }: { challenge
         let cancelled = false;
         setCameraStarting(true);
         setCameraError(null);
-        navigator.mediaDevices.getUserMedia({ audio: false, video: { facingMode: { ideal: facingMode }, width: { ideal: 1280 }, height: { ideal: 1280 } } }).then(async (stream) => {
+        void ensureCameraPermission().then((permissionGranted) => {
+            if (!permissionGranted) {
+                setCameraError('Bạn chưa cấp quyền camera. Hãy cho phép camera rồi thử lại.');
+                return null;
+            }
+
+            return navigator.mediaDevices.getUserMedia({ audio: false, video: { facingMode: { ideal: facingMode }, width: { ideal: 1280 }, height: { ideal: 1280 } } });
+        }).then((stream) => {
+            if (!stream) return;
             if (cancelled) {
                 stream.getTracks().forEach((track) => track.stop());
                 return;
@@ -255,8 +264,9 @@ function ChallengeCheckInDialog({ challengeId, open, onOpenChange }: { challenge
             streamRef.current = stream;
             if (!videoRef.current) return;
             videoRef.current.srcObject = stream;
-            await videoRef.current.play();
-            if (!cancelled) setCameraReady(true);
+            return videoRef.current.play().then(() => {
+                if (!cancelled) setCameraReady(true);
+            });
         }).catch(() => setCameraError('Không thể mở camera. Hãy cấp quyền camera hoặc chọn ảnh từ thiết bị.')).finally(() => setCameraStarting(false));
 
         return () => {

@@ -101,7 +101,9 @@ function NavButton({ item, isActive, reduceMotion, onClick }: NavButtonProps) {
                 reduceMotion
                     ? undefined
                     : {
-                          y: isActive ? 2 : 4,
+                          // Keep every item on one baseline. The previous active/inactive
+                          // y values made the whole row visibly jump during tab changes.
+                          y: -2,
                           scale: isActive ? 1.08 : 1,
                       }
             }

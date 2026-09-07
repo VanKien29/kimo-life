@@ -8,7 +8,7 @@
 
         <meta name="theme-color" content="#74C69D">
         <meta name="description" content="{{ config('kimo.tagline') }}">
-        <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
+        <link rel="icon" href="{{ asset('images/kimo-logo.png') }}" type="image/png">
 
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700" rel="stylesheet" />

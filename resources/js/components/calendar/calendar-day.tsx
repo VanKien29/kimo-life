@@ -1,6 +1,5 @@
 import { cn } from '@/lib/utils';
 import { type CalendarDay as CalendarDayData } from '@/types/calendar';
-import { Images } from 'lucide-react';
 
 interface CalendarDayProps {
     day: CalendarDayData;
@@ -70,19 +69,6 @@ export function CalendarDay({ day, isSelected, onSelect }: CalendarDayProps) {
                 )}
             </div>
 
-            {/* Bottom Row / Badges */}
-            <div className="relative z-10 flex items-end justify-between w-full p-1 sm:p-1.5 pointer-events-none">
-                {photos.length > 1 ? (
-                    <span className="ml-auto inline-flex items-center gap-0.5 rounded-[4px] bg-black/60 px-1 py-0.5 text-[9px] sm:text-[10px] font-bold text-white backdrop-blur-xs ring-1 ring-white/20">
-                        <Images className="size-2.5 sm:size-3" />
-                        <span>{photos.length}</span>
-                    </span>
-                ) : hasMemory && !hasPhoto ? (
-                    <span className="ml-auto rounded bg-emerald-100 px-1 py-0.2 text-[9px] font-bold text-emerald-700">
-                        {day.memory_count}
-                    </span>
-                ) : null}
-            </div>
         </button>
     );
 }

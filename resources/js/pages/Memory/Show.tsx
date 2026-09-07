@@ -4,7 +4,7 @@ import { type SharedData } from '@/types';
 import { type MemoryItem } from '@/types/memory';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { AnimatePresence, motion } from 'motion/react';
-import { ArrowLeft, Send } from 'lucide-react';
+import { ArrowLeft, Send, Trash2 } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 interface MemoryShowProps {
@@ -17,9 +17,10 @@ function dateLabel(value: string): string {
     return new Intl.DateTimeFormat('vi-VN', { dateStyle: 'medium' }).format(new Date(value + 'T12:00:00'));
 }
 
-function MemoryCard({ item, onSend, sending }: { item: MemoryItem; onSend: (item: MemoryItem) => void; sending: boolean }) {
+function MemoryCard({ item, onSend, sending, onDelete, deleting }: { item: MemoryItem; onSend: (item: MemoryItem) => void; sending: boolean; onDelete: (item: MemoryItem) => void; deleting: boolean }) {
     const { auth } = usePage<SharedData>().props;
     const canSendMessage = Boolean(item.owner && item.owner.id !== auth.user.id);
+    const canDelete = Boolean(item.owner && item.owner.id === auth.user.id);
     const caption = item.content || item.title || 'Một khoảnh khắc nhỏ';
 
     return (
@@ -28,7 +29,23 @@ function MemoryCard({ item, onSend, sending }: { item: MemoryItem; onSend: (item
                 <time className="text-brand-muted text-xs" dateTime={item.memory_date}>
                     {dateLabel(item.memory_date)}
                 </time>
-                <span className="bg-brand-pale text-brand-primary-dark rounded-full px-2.5 py-1 text-[11px] font-semibold">Đang xem</span>
+                <div className="flex items-center gap-1.5">
+                    <span className="bg-brand-pale text-brand-primary-dark rounded-full px-2.5 py-1 text-[11px] font-semibold">Đang xem</span>
+                    {canDelete && (
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            aria-label="Xóa khoảnh khắc"
+                            title="Xóa khoảnh khắc"
+                            className="text-brand-danger hover:bg-brand-danger/10 hover:text-brand-danger"
+                            disabled={deleting}
+                            onClick={() => onDelete(item)}
+                        >
+                            <Trash2 className="size-4" />
+                        </Button>
+                    )}
+                </div>
             </div>
 
             <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-black shadow-float">
@@ -73,6 +90,7 @@ export default function MemoryShow({ memory, feed, status }: MemoryShowProps) {
     );
     const [currentIndex, setCurrentIndex] = useState(initialIndex);
     const [sendingId, setSendingId] = useState<number | null>(null);
+    const [deletingId, setDeletingId] = useState<number | null>(null);
     const touchStartY = useRef<number | null>(null);
     const wheelLocked = useRef(false);
     const currentItem = items[currentIndex] ?? memory;
@@ -122,6 +140,15 @@ export default function MemoryShow({ memory, feed, status }: MemoryShowProps) {
         );
     };
 
+    const deleteMemory = (item: MemoryItem) => {
+        if (!item.owner || item.owner.id !== auth.user.id || !window.confirm('Bạn có chắc muốn xóa khoảnh khắc này không?')) return;
+
+        router.delete(route('memory.destroy', item.id), {
+            onStart: () => setDeletingId(item.id),
+            onFinish: () => setDeletingId(null),
+        });
+    };
+
     return (
         <AppLayout>
             <Head title={memory.title || 'Chi tiết khoảnh khắc'} />
@@ -148,7 +175,7 @@ export default function MemoryShow({ memory, feed, status }: MemoryShowProps) {
                             exit={{ opacity: 0, y: -34, scale: 0.96 }}
                             transition={{ type: 'spring', stiffness: 380, damping: 35 }}
                         >
-                            <MemoryCard item={currentItem} onSend={sendMessage} sending={sendingId === currentItem.id} />
+                            <MemoryCard item={currentItem} onSend={sendMessage} sending={sendingId === currentItem.id} onDelete={deleteMemory} deleting={deletingId === currentItem.id} />
                         </motion.div>
                     </AnimatePresence>
                 </div>

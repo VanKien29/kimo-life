@@ -28,3 +28,5 @@ yarn-error.log
 # Temporary local Gradle caches used when building the Android wrapper.
 /.gradle-build-cache/
 /.gradle-build-cache-2/
+/android/.gradle-build-cache/
+/android/.gradle-build-cache-2/
