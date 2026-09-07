@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Kimo Life</string>
+    <string name="title_activity_main">Kimo Life</string>
+    <string name="package_name">id.vn.vkien.kimolife</string>
+    <string name="custom_url_scheme">id.vn.vkien.kimolife</string>
+</resources>
