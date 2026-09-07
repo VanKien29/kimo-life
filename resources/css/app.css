@@ -1,0 +1,352 @@
+@import 'tailwindcss';
+
+@plugin 'tailwindcss-animate';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+
+@custom-variant dark (&:is(.dark *));
+
+/* Kimo Life's visual language lives in semantic tokens so components never need
+   to know the raw brand palette. */
+@theme {
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --radius-sm: 10px;
+    --radius-md: 14px;
+    --radius-lg: 18px;
+    --radius-xl: 24px;
+    --radius-2xl: 28px;
+
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+
+    --color-brand-primary: var(--kimo-primary);
+    --color-brand-primary-foreground: var(--primary-foreground);
+    --color-brand-primary-dark: var(--kimo-primary-dark);
+    --color-brand-soft: var(--kimo-soft);
+    --color-brand-pale: var(--kimo-pale);
+    --color-brand-background: var(--kimo-background);
+    --color-brand-surface: var(--kimo-surface);
+    --color-brand-border: var(--kimo-border);
+    --color-brand-text: var(--kimo-text);
+    --color-brand-secondary: var(--kimo-secondary);
+    --color-brand-muted: var(--kimo-muted);
+    --color-brand-accent: var(--kimo-accent);
+    --color-brand-streak: var(--kimo-streak);
+    --color-brand-blue: var(--kimo-blue);
+    --color-brand-danger: var(--kimo-danger);
+}
+
+:root {
+    /* Palette from mockup UI Components sheet */
+    --kimo-primary: #74C69D;
+    --kimo-primary-dark: #3f8f6b;
+    --kimo-soft: #A7D7A7;
+    --kimo-pale: #E8F5E9;
+    --kimo-background: #E8F5E9;
+    --kimo-surface: #F8FAF7;
+    --kimo-border: #D1E7D6;
+    --kimo-text: #1F2937;
+    --kimo-secondary: #94A3B8;
+    --kimo-muted: #94A3B8;
+    --kimo-accent: #FDE68A;
+    --kimo-streak: #FF8A65;
+    --kimo-blue: #8ec5ff;
+    --kimo-danger: #fca5a5;
+
+    --background: var(--kimo-background);
+    --foreground: var(--kimo-text);
+    --card: var(--kimo-surface);
+    --card-foreground: var(--kimo-text);
+    --popover: var(--kimo-surface);
+    --popover-foreground: var(--kimo-text);
+    --primary: var(--kimo-primary);
+    --primary-foreground: #ffffff;
+    --secondary: var(--kimo-pale);
+    --secondary-foreground: var(--kimo-primary-dark);
+    --muted: #eef4ef;
+    --muted-foreground: var(--kimo-secondary);
+    --accent: var(--kimo-pale);
+    --accent-foreground: var(--kimo-primary-dark);
+    --destructive: var(--kimo-danger);
+    --destructive-foreground: #5d2424;
+    --border: var(--kimo-border);
+    --input: var(--kimo-border);
+    --ring: var(--kimo-primary-dark);
+
+    --shadow-soft: 0 12px 30px rgb(36 49 42 / 0.07);
+    --shadow-float: 0 16px 36px rgb(63 143 107 / 0.18);
+    --motion-fast: 160ms;
+    --motion-normal: 240ms;
+    --motion-emphasized: 360ms;
+}
+
+.dark {
+    --kimo-background: #142019;
+    --kimo-surface: #1d2b24;
+    --kimo-border: #345045;
+    --kimo-text: #f1f8f2;
+    --kimo-secondary: #b4c5b9;
+    --kimo-muted: #8da397;
+    --background: var(--kimo-background);
+    --foreground: var(--kimo-text);
+    --card: var(--kimo-surface);
+    --card-foreground: var(--kimo-text);
+    --popover: #213229;
+    --popover-foreground: var(--kimo-text);
+    --primary: #8bd5ae;
+    --primary-foreground: #143322;
+    --secondary: #294338;
+    --secondary-foreground: #d8f0dd;
+    --muted: #26382f;
+    --muted-foreground: #b4c5b9;
+    --accent: #294338;
+    --accent-foreground: #d8f0dd;
+    --destructive: #e99a9a;
+    --destructive-foreground: #3f1818;
+    --border: var(--kimo-border);
+    --input: var(--kimo-border);
+    --ring: #a7d7a7;
+    --shadow-soft: 0 12px 30px rgb(0 0 0 / 0.18);
+    --shadow-float: 0 16px 36px rgb(0 0 0 / 0.24);
+}
+
+@layer base {
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--border);
+    }
+
+    * {
+        @apply border-border;
+    }
+
+    html {
+        color-scheme: light;
+    }
+
+    html.dark {
+        color-scheme: dark;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+        min-width: 320px;
+        font-family: var(--font-sans);
+        background-image:
+            radial-gradient(circle at 8% 3%, rgb(167 215 167 / 0.20), transparent 22rem),
+            radial-gradient(circle at 92% 12%, rgb(255 213 154 / 0.15), transparent 18rem),
+            radial-gradient(circle at 50% 80%, rgb(116 198 157 / 0.08), transparent 30rem);
+        background-attachment: fixed;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+        font: inherit;
+    }
+
+    :focus-visible {
+        outline: 3px solid color-mix(in srgb, var(--ring) 40%, transparent);
+        outline-offset: 3px;
+    }
+}
+
+@layer components {
+    .kimo-shell {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+    }
+
+    .kimo-shell::before,
+    .kimo-shell::after {
+        position: fixed;
+        z-index: -1;
+        width: 18rem;
+        height: 18rem;
+        border-radius: 999px;
+        pointer-events: none;
+        content: '';
+        filter: blur(2px);
+        opacity: 0.42;
+    }
+
+    .kimo-shell::before {
+        top: 5rem;
+        left: -12rem;
+        background: radial-gradient(circle, rgb(167 215 167 / 0.28), transparent 68%);
+    }
+
+    .kimo-shell::after {
+        right: -12rem;
+        bottom: 8rem;
+        background: radial-gradient(circle, rgb(255 213 154 / 0.24), transparent 68%);
+    }
+
+    .kimo-glass {
+        border: 1px solid rgb(209 231 214 / 0.8);
+        background: rgb(248 250 247 / 0.82);
+        box-shadow: 0 18px 48px rgb(36 49 42 / 0.08);
+        backdrop-filter: blur(18px);
+    }
+
+    .kimo-display {
+        letter-spacing: -0.045em;
+    }
+
+    /* Floating leaves animation */
+    .kimo-leaf {
+        position: absolute;
+        pointer-events: none;
+        animation: kimo-leaf-float var(--leaf-duration, 8s) ease-in-out infinite;
+        animation-delay: var(--leaf-delay, 0s);
+        opacity: 0.5;
+    }
+
+    @keyframes kimo-leaf-float {
+        0% {
+            transform: translate(0, 0) rotate(0deg);
+            opacity: 0;
+        }
+        15% {
+            opacity: 0.6;
+        }
+        50% {
+            transform: translate(var(--leaf-x, -60px), var(--leaf-y, 120px)) rotate(180deg);
+            opacity: 0.4;
+        }
+        85% {
+            opacity: 0.3;
+        }
+        100% {
+            transform: translate(var(--leaf-x2, -120px), var(--leaf-y2, 240px)) rotate(360deg);
+            opacity: 0;
+        }
+    }
+
+    /* Photo stack 3D */
+    .kimo-photo-stack {
+        perspective: 900px;
+        transform-style: preserve-3d;
+    }
+
+    .kimo-photo-card {
+        transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        transform-style: preserve-3d;
+        will-change: transform;
+    }
+
+    .kimo-photo-card:hover {
+        transform: translateY(-8px) rotateY(-2deg) scale(1.02);
+        box-shadow: 0 24px 48px rgb(36 49 42 / 0.16);
+    }
+
+    /* Mood selector */
+    .kimo-mood-option {
+        transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .kimo-mood-option:hover {
+        transform: scale(1.15);
+    }
+
+    .kimo-mood-option[data-active="true"] {
+        transform: scale(1.2);
+        filter: none;
+    }
+
+    .kimo-mood-option[data-active="false"] {
+        filter: grayscale(0.3);
+        opacity: 0.7;
+    }
+
+    /* Streak dots */
+    .kimo-streak-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        transition: background-color 0.2s, transform 0.2s;
+    }
+
+    .kimo-streak-dot[data-completed="true"] {
+        background-color: var(--kimo-primary);
+    }
+
+    .kimo-streak-dot[data-completed="false"] {
+        background-color: var(--kimo-border);
+    }
+
+    /* Quote card */
+    .kimo-quote {
+        position: relative;
+    }
+
+    .kimo-quote::before {
+        content: '"';
+        position: absolute;
+        top: -0.25rem;
+        left: -0.25rem;
+        font-size: 3rem;
+        line-height: 1;
+        color: var(--kimo-primary);
+        opacity: 0.4;
+        font-family: Georgia, serif;
+    }
+}
+
+@layer utilities {
+    .safe-area-bottom {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .safe-area-bottom-nav {
+        padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+    }
+
+    .shadow-soft {
+        box-shadow: var(--shadow-soft);
+    }
+
+    .shadow-float {
+        box-shadow: var(--shadow-float);
+    }
+}
+
+@media (min-width: 768px) {
+    .safe-area-bottom-nav {
+        padding-bottom: 0.5rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

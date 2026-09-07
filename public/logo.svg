@@ -1,0 +1,8 @@
+<svg width="320" height="96" viewBox="0 0 320 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="96" height="96" rx="24" fill="#74C69D"/>
+  <path d="M28 24V72M30 50L62 24M38 50L68 72" stroke="white" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M62 23C72 20 78 23 80 30C70 33 64 30 62 23Z" fill="white"/>
+  <path d="M62 23C62 30 67 35 74 35" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+  <text x="116" y="59" fill="#24312A" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="700">Kimo</text>
+  <text x="228" y="59" fill="#3F8F6B" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="700">Life</text>
+</svg>
