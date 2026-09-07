@@ -18,8 +18,13 @@
 /storage/*.key
 /storage/pail
 /vendor
+/android/.idea/
 auth.json
 Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+
+# Temporary local Gradle caches used when building the Android wrapper.
+/.gradle-build-cache/
+/.gradle-build-cache-2/
